@@ -15,4 +15,13 @@ clock = pygame.time.Clock()
 running = True
 
 while running:
-    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill(BLACK)
+    pygame.draw.polygon(screen, WHITE, [(400, 300), (390, 320), (410, 320)])
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
