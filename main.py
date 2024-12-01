@@ -12,8 +12,22 @@ WHITE = (255, 255, 255)
 
 clock = pygame.time.Clock()
 
-running = True
+position = [400, 300]
+velocity = [0, 0]
+angle = 0
+angular_velocity = 0
 
+def rotate_point(point, angle, center):
+    radians = math.radians(angle)
+    x, y = point
+    cx, cy = center
+    x -= cx
+    y -= cy
+    new_x = x * math.cos(radians) - y * math.sin(radians) + cx
+    new_y = x * math.sin(radians) + y * math.cos(radians) + cy
+    return new_x, new_y
+
+running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
