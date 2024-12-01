@@ -41,6 +41,7 @@ def low_pass_filter(noise, cutoff, sample_rate, roll_off=0.1):
     fft_noise[transition_band] *= np.linspace(1, 0, np.sum(transition_band))
 
     return np.fft.irfft(fft_noise)
+
 def audio_callback(outdata, frames, time, status):
     global thrusting
     if thrusting:
@@ -71,11 +72,17 @@ def rotate_point(point, angle, center):
     new_y = x * math.sin(radians) + y * math.cos(radians) + cy
     return new_x, new_y
 
+earth_mode = False
+gravity = 9.8 / 60 
+
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_e:  # Toggle Earth mode
+                earth_mode = not earth_mode
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -92,14 +99,24 @@ while running:
         velocity[0] += acceleration * math.sin(math.radians(angle))
         velocity[1] -= acceleration * math.cos(math.radians(angle))
 
+    if earth_mode:
+        velocity[1] += gravity
+
     position[0] += velocity[0]
     position[1] += velocity[1]
     angle += angular_velocity
 
     position[0] %= WIDTH
-    position[1] %= HEIGHT
+    if earth_mode and position[1] > HEIGHT:
+        position[1] = HEIGHT
+        velocity[1] = 0  # Stop vertical motion if landed
+    else:
+        position[1] %= HEIGHT
 
-    screen.fill(BLACK)
+    if earth_mode:
+        screen.fill((135, 206, 235))  # Light blue for Earth mode
+    else:
+        screen.fill(BLACK)
 
     center = (position[0], position[1])
     points = [
