@@ -83,7 +83,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_e:  # Toggle Earth mode
+            if event.key == pygame.K_e:
                 earth_mode = not earth_mode
 
     keys = pygame.key.get_pressed()
@@ -111,12 +111,12 @@ while running:
     position[0] %= WIDTH
     if earth_mode and position[1] > HEIGHT:
         position[1] = HEIGHT
-        velocity[1] = 0  # Stop vertical motion if landed
+        velocity[1] = 0
     else:
         position[1] %= HEIGHT
 
     if earth_mode:
-        screen.fill((135, 206, 235))  # Light blue for Earth mode
+        screen.fill((135, 206, 235))
     else:
         screen.fill(BLACK)
 
@@ -137,7 +137,7 @@ while running:
         pygame.draw.polygon(screen, RED, flame_points)
 
     text = font.render("Press E to toggle Earth mode", True, WHITE)
-    screen.blit(text, (10, 10))  # Position at the top-left corner
+    screen.blit(text, (10, 10))
 
     pygame.display.flip()
     clock.tick(60)
