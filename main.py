@@ -4,6 +4,8 @@ import numpy as np
 import sounddevice as sd
 
 pygame.init()
+pygame.font.init()
+font = pygame.font.Font(None, 20)
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -134,8 +136,10 @@ while running:
         ]
         pygame.draw.polygon(screen, RED, flame_points)
 
-    pygame.display.flip()
+    text = font.render("Press E to toggle Earth mode", True, WHITE)
+    screen.blit(text, (10, 10))  # Position at the top-left corner
 
+    pygame.display.flip()
     clock.tick(60)
 
 stream.stop()
