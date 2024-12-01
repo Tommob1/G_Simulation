@@ -36,7 +36,7 @@ while running:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         angular_velocity = -2
-    elif keys[pygame.K_LEFT]:
+    elif keys[pygame.K_RIGHT]:
         angular_velocity = 2
     else:
         angular_velocity = 0
@@ -59,12 +59,20 @@ while running:
 
     center = (position[0], position[1])
     points = [
-        rotate_point((position[0], position[1] - 15), angle, center),
-        rotate_point((position[0] - 10, position[1] + 10), angle, center),
-        rotate_point((position[0] + 10, position[1] + 10), angle, center),
+        rotate_point((position[0], position[1] - 15), angle, center),  # Front
+        rotate_point((position[0] - 10, position[1] + 10), angle, center),  # Left
+        rotate_point((position[0] + 10, position[1] + 10), angle, center),  # Right
     ]
-
     pygame.draw.polygon(screen, WHITE, points)
+
+    # Visualize thrust
+    if thrust > 0:
+        thrust_points = [
+            rotate_point((position[0] - 5, position[1] + 15), angle, center),  # Left flame
+            rotate_point((position[0] + 5, position[1] + 15), angle, center),  # Right flame
+            rotate_point((position[0], position[1] + 25), angle, center),      # Tip of flame
+        ]
+        pygame.draw.polygon(screen, (255, 0, 0), thrust_points)
     pygame.display.flip()
     clock.tick(60)
 
