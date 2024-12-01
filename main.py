@@ -33,8 +33,38 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        angular_velocity = -2
+    elif keys[pygame.K_LEFT]:
+        angular_velocity = 2
+    else:
+        angular_velocity = 0
+
+    if keys[pygame.K_UP]:
+        thrust = 0.2
+        velocity[0] += thrust * math.cos(math.radians(angle))
+        velocity[1] -= thrust * math.sin(math.radians(angle))
+    else:
+        thrust = 0
+
+    position[0] += velocity[0]
+    position[1] += velocity[1]
+    angle += angular_velocity
+
+    position[0] %= WIDTH
+    position[1] %= HEIGHT
+
     screen.fill(BLACK)
-    pygame.draw.polygon(screen, WHITE, [(400, 300), (390, 320), (410, 320)])
+
+    center = (position[0], position[1])
+    points = [
+        rotate_point((position[0], position[1] - 15), angle, center),
+        rotate_point((position[0] - 10, position[1] + 10), angle, center),
+        rotate_point((position[0] + 10, position[1] + 10), angle, center),
+    ]
+
+    pygame.draw.polygon(screen, WHITE, points)
     pygame.display.flip()
     clock.tick(60)
 
