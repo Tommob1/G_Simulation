@@ -25,7 +25,6 @@ SAMPLE_RATE = 44100
 AMPLITUDE = 0.2
 
 def generate_white_noise(duration, sample_rate=SAMPLE_RATE):
-    """Generate pure white noise."""
     n_samples = int(sample_rate * duration)
     return np.random.uniform(-AMPLITUDE, AMPLITUDE, n_samples).astype(np.float32)
 white_noise = generate_white_noise(1.0)
