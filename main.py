@@ -91,6 +91,9 @@ while running:
         angular_velocity = -2
     elif keys[pygame.K_RIGHT]:
         angular_velocity = 2
+    elif keys[pygame.K_ESCAPE]:
+        stream.stop()
+        pygame.quit()
     else:
         angular_velocity = 0
 
